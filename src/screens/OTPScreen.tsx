@@ -40,59 +40,59 @@ const OTPScreen = () => {
     const fullCode = otp.join('');
     if (fullCode.length === 4) {
       console.log('Entered OTP:', fullCode);
+       navigation.navigate('CreateNewPassword', { otpToken: fullCode });
     }
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.backBtn}
-        onPress={() => navigation.goBack()}
-      >
-        <Ionicons name="chevron-back" size={20} color="#1E232C" />
-      </TouchableOpacity>
+  <View style={styles.wrapper}>
+      <View style={styles.topContent}>
+        <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
+          <Ionicons name="chevron-back" size={20} color="#1E232C" />
+        </TouchableOpacity>
 
-      <Text style={styles.heading}>OTP Verification</Text>
-      <Text style={styles.subText}>
-        Enter the verification code we just sent on your email address.
-      </Text>
+        <Text style={styles.heading}>OTP Verification</Text>
+        <Text style={styles.subText}>
+          Enter the verification code we just sent on your email address.
+        </Text>
 
-      <View style={styles.otpContainer}>
-        {otp.map((digit, index) => (
-          <TextInput
-            key={index}
+        <View style={styles.otpContainer}>
+          {otp.map((digit, index) => (
+            <TextInput
+              key={index}
             ref={(ref: TextInput | null) => {
               inputRefs.current[index] = ref;
             }}
-            value={digit}
-            onChangeText={value => handleChange(index, value)}
-            keyboardType="numeric"
-            maxLength={1}
-            style={[
-              styles.otpInput,
-              digit === ''
-                ? {
-                    backgroundColor: '#F7F8F9',
-                    borderColor: '#E8ECF4',
-                  }
-                : {
-                    backgroundColor: '#ffffff',
-                    borderColor: '#35C2C1',
-                  },
-            ]}
-            autoFocus={index === 0}
-            onSubmitEditing={Keyboard.dismiss}
-          />
-        ))}
+              value={digit}
+              onChangeText={(value) => handleChange(index, value)}
+              keyboardType="numeric"
+              maxLength={1}
+              style={[
+                styles.otpInput,
+                digit === ''
+                  ? {
+                      backgroundColor: '#F7F8F9',
+                      borderColor: '#E8ECF4',
+                    }
+                  : {
+                      backgroundColor: '#ffffff',
+                      borderColor: '#35C2C1',
+                    },
+              ]}
+              autoFocus={index === 0}
+              onSubmitEditing={Keyboard.dismiss}
+            />
+          ))}
+        </View>
+
+        <TouchableOpacity style={styles.verifyBtn} onPress={handleVerify}>
+          <Text style={styles.verifyText}>Verify</Text>
+        </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.verifyBtn} onPress={handleVerify}>
-        <Text style={styles.verifyText}>Verify</Text>
-      </TouchableOpacity>
-
       <View style={styles.resendContainer}>
-        <Text style={styles.infoText}>Didn’t received code? </Text>
-        <TouchableOpacity>
+        <Text style={styles.infoText}>Didn’t receive code? </Text>
+        <TouchableOpacity >
           <Text style={styles.resendText}>Resend</Text>
         </TouchableOpacity>
       </View>
@@ -103,10 +103,16 @@ const OTPScreen = () => {
 export default OTPScreen;
 
 const styles = StyleSheet.create({
-  container: {
+  wrapper: {
     flex: 1,
+    justifyContent: 'space-between',
     backgroundColor: '#ffffff',
     padding: 22,
+  },
+   topContent: {
+    flexShrink: 1,
+    justifyContent: 'flex-start',
+    paddingBottom: 40,
   },
   backBtn: {
     width: 41,
@@ -161,7 +167,6 @@ const styles = StyleSheet.create({
   resendContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop:357,
     marginBottom:26,
   },
   infoText: {

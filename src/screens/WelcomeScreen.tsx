@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParamList } from '../navigation/AuthStack';
@@ -24,25 +25,35 @@ const WelcomeScreen = () => {
     <View style={styles.container}>
       <View style={styles.imgBox}>
         <Image
-          source={require('../../assets/images/Vector.png')}
+          source={require('../../assets/images/welcome.png')}
           style={styles.img}
           resizeMode="contain"
         />
       </View>
 
-      <Text style={styles.title}>Employee Alert</Text>
-      <TouchableOpacity
-        style={styles.loginButton}
-        onPress={() => navigation.navigate('Login')}
-      >
-        <Text style={styles.loginText}>Login</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.registerButton}
-        onPress={() => navigation.navigate('Register')}
-      >
-        <Text style={styles.registerText}>Register</Text>
-      </TouchableOpacity>
+      <View style={styles.contentBox}>
+        <Text style={styles.title}>Employee Alert</Text>
+        <LinearGradient
+          colors={[Colors.gradientStart, Colors.gradientEnd]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={styles.gradientButton}
+        >
+          <TouchableOpacity
+            style={styles.loginButton}
+            onPress={() => navigation.navigate('Login')}
+          >
+            <Text style={styles.loginText}>Login</Text>
+          </TouchableOpacity>
+        </LinearGradient>
+
+        <TouchableOpacity
+          style={styles.registerButton}
+          onPress={() => navigation.navigate('Register')}
+        >
+          <Text style={styles.registerText}>Register</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -52,57 +63,74 @@ export default WelcomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: Colors.backgroundColor,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: 24,
   },
   imgBox: {
-    backgroundColor: '#E4E7EC',
-    width: 282,
-    height: 282,
-    borderRadius: 10,
+    width:290.2506408691406,
+    height: 346,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 100,
+    marginBottom: 80,
+
   },
   img: {
-    width: 158,
-    height: 120,
+    width: '100%',
+    height: '100%',
+    borderRadius: 10.45,
+  },
+  contentBox: {
+    width: 328,
+    height: 'auto',
+    alignItems: 'center',
   },
   title: {
-    fontSize: 30,
-    color:Colors.textDark,
-    fontFamily:Fonts.bold,
-    marginBottom: 10,
+    fontSize: 23,
+    color: Colors.textDark,
+    fontFamily: Fonts.medium,
+    marginBottom: 20,
   },
   loginButton: {
-    backgroundColor:Colors.primary,
-    width: 331,
-    height: 56,
-    paddingVertical: 15,
-    borderRadius: 8,
+    backgroundColor: 'transparent',
+    width: 328,
+    height: 47,
     alignItems: 'center',
-    marginBottom: 15,
+    justifyContent: 'center',
+    borderRadius: 8,
+  },
+  gradientButton: {
+    borderRadius: 8,
+    padding: 2,
+    shadowColor: '#101922',
+    shadowOffset: { width: 2, height: 3 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
   },
   loginText: {
-    fontSize: 15,
-    color:Colors.textDark,
-    fontFamily:Fonts.semiBold,
+    fontSize: 16,
+    color: Colors.backgroundColor,
+    fontFamily: Fonts.semiBold,
   },
   registerButton: {
-    borderColor:Colors.buttonBorder,
-    borderWidth: 1,
-    width: 331,
-    height: 56,
-    paddingVertical: 15,
-    borderRadius: 8,
+    backgroundColor: '#E8ECF4',
+    width: 328,
+    height: 47,
     alignItems: 'center',
-    marginBottom: 15,
+    justifyContent: 'center',
+    borderRadius: 8,
+    marginTop: 10,
+    shadowColor: '#101922',
+    shadowOffset: { width: 2, height: 3 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
   },
   registerText: {
     fontSize: 15,
-    color:Colors.textDark,
-    fontFamily:Fonts.semiBold,
+    color: Colors.textDark,
+    fontFamily: Fonts.semiBold,
   },
 });

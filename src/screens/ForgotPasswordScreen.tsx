@@ -20,40 +20,40 @@ const ForgotPasswordScreen = () => {
 
   const handleSendCode = () => {
     if (email.trim() === '') {
-      console.log('Email is empty!');
       return;
     }
-    console.log('Navigating to OTP with email:', email);
     navigation.navigate('OTP', { phoneOrEmail: email });
   };
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.backBtn}
-        onPress={() => navigation.goBack()}
-      >
-        <Ionicons name="chevron-back" size={19} color="#1E232C" />
-      </TouchableOpacity>
+      <View style={styles.topContent}>
+        <TouchableOpacity
+          style={styles.backBtn}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons name="chevron-back" size={19} color="#1E232C" />
+        </TouchableOpacity>
 
-      <Text style={styles.heading}>Forgot Password?</Text>
-      <Text style={styles.subText}>
-        Don't worry! It occurs. Please enter the email address linked with your
-        account.
-      </Text>
+        <Text style={styles.heading}>Forgot Password?</Text>
+        <Text style={styles.subText}>
+          Don't worry! It occurs. Please enter the email address linked with
+          your account.
+        </Text>
 
-      <TextInput
-        placeholder="Enter your email"
-        value={email}
-        onChangeText={setEmail}
-        style={styles.input}
-        placeholderTextColor="#8391A1"
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
+        <TextInput
+          placeholder="Enter your email"
+          value={email}
+          onChangeText={setEmail}
+          style={styles.input}
+          placeholderTextColor="#8391A1"
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
 
-      <TouchableOpacity style={styles.codeBtn} onPress={handleSendCode}>
-        <Text style={styles.CodeText}>Send Code</Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.codeBtn} onPress={handleSendCode}>
+          <Text style={styles.CodeText}>Send Code</Text>
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.rememberContainer}>
         <Text style={styles.rememberAccountText}>Remember Password? </Text>
@@ -72,6 +72,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 22,
     backgroundColor: '#ffffff',
+    justifyContent: 'space-between',
+  },
+  topContent: {
+    flexShrink: 1,
+    justifyContent: 'flex-start',
+    paddingBottom: 40,
   },
   backBtn: {
     width: 41,
@@ -90,8 +96,8 @@ const styles = StyleSheet.create({
   },
   subText: {
     fontFamily: Fonts.medium,
-    marginTop:10,
-    marginBottom:32,
+    marginTop: 10,
+    marginBottom: 32,
     fontSize: 16,
     color: '#8391A1',
   },
@@ -120,7 +126,6 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.semiBold,
   },
   rememberContainer: {
-    marginTop: 361,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',

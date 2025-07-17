@@ -8,6 +8,7 @@ import {
   Pressable,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParamList } from '../navigation/AuthStack';
@@ -25,62 +26,80 @@ const LoginScreen = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
-        <Ionicons name="chevron-back" size={19} color="#1E232C" />
-      </TouchableOpacity>
-
-      <Text style={styles.heading}>Welcome back!</Text>
-
-      <TextInput
-        placeholder="Enter your email"
-        placeholderTextColor="#8391A1"
-        style={styles.input}
-      />
-      <View style={styles.passwordContainer}>
-        <TextInput
-          placeholder="Enter your password"
-          placeholderTextColor="#8391A1"
-          secureTextEntry={!passwordVisible}
-          style={styles.passwordInput}
-        />
-        <Pressable onPress={() => setPasswordVisible(!passwordVisible)}>
-          <EyeIcon width={22} height={22} />
-        </Pressable>
-      </View>
-
-      <TouchableOpacity style={styles.forgotPassword} 
-      onPress={() => navigation.navigate('ForgotPassword')}
-      >
-        <Text style={styles.forgotText}>Forgot Password?</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.loginBtn}>
-        <Text style={styles.loginText}>Login</Text>
-      </TouchableOpacity>
-
-      <View style={styles.separatorContainer}>
-        <View style={styles.line} />
-        <Text style={styles.separatorText}>Or Login with</Text>
-        <View style={styles.line} />
-      </View>
-
-      <View style={styles.socialIcons}>
-        <TouchableOpacity style={[styles.iconBox, { marginRight: 8 }]}>
-          <FacebookIcon width={26} height={26} />
+      <View style={styles.topContent}>
+        <TouchableOpacity
+          style={styles.backBtn}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons name="chevron-back" size={19} color="#1E232C" />
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.iconBox, { marginRight: 8 }]}>
-          <GoogleIcon width={26} height={26} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.iconBox}>
-          <AppleIcon width={26} height={26} />
-        </TouchableOpacity>
+
+        <Text style={styles.heading}>Welcome back!</Text>
+
+        <View style={{ marginBottom: 20 }}>
+          <Text style={styles.label}>Email *</Text>
+          <TextInput
+            placeholder="Email@example.com"
+            placeholderTextColor="#8391A1"
+            style={styles.input}
+          />
+        </View>
+
+        <View>
+          <Text style={styles.label}>Enter password *</Text>
+          <View style={styles.passwordContainer}>
+            <TextInput
+              placeholder="***********"
+              placeholderTextColor="#8391A1"
+              secureTextEntry={!passwordVisible}
+              style={styles.passwordInput}
+              autoCapitalize="none"
+            />
+            <Pressable onPress={() => setPasswordVisible(!passwordVisible)}>
+              <EyeIcon width={22} height={22} />
+            </Pressable>
+          </View>
+          <TouchableOpacity
+            style={styles.forgotPassword}
+            onPress={() => navigation.navigate('ForgotPassword')}
+          >
+            <Text style={styles.forgotText}>Forgot Password?</Text>
+          </TouchableOpacity>
+        </View>
+
+        <LinearGradient
+          colors={[Colors.gradientStart, Colors.gradientEnd]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={styles.gradientButton}
+        >
+          <TouchableOpacity style={styles.loginButton}>
+            <Text style={styles.loginText}>Login</Text>
+          </TouchableOpacity>
+        </LinearGradient>
+
+        <View style={styles.separatorContainer}>
+          <View style={styles.line} />
+          <Text style={styles.separatorText}>Or Login with</Text>
+          <View style={styles.line} />
+        </View>
+
+        <View style={styles.socialIcons}>
+          <TouchableOpacity style={[styles.iconBox, { marginRight: 8 }]}>
+            <FacebookIcon width={26} height={26} />
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.iconBox, { marginRight: 8 }]}>
+            <GoogleIcon width={26} height={26} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconBox}>
+            <AppleIcon width={26} height={26} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.registerContainer}>
         <Text style={styles.registerAccountText}>Don’t have an account? </Text>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Register')}
-        >
+        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
           <Text style={styles.registerText}>Register Now</Text>
         </TouchableOpacity>
       </View>
@@ -92,17 +111,27 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 22,
-    backgroundColor: '#ffffff',
+    backgroundColor: Colors.backgroundColor,
+    padding: 24,
+    justifyContent: 'space-between',
+  },
+  topContent: {
+    flexShrink: 1,
+    justifyContent: 'flex-start',
+    paddingBottom: 40,
   },
   backBtn: {
     width: 41,
     height: 41,
     borderRadius: 12,
-    borderColor: '#E8ECF4',
-    borderWidth: 1,
+    backgroundColor: Colors.backgroundColor,
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: '#101922',
+    shadowOffset: { width: 2, height: 3 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
   },
   heading: {
     fontSize: 30,
@@ -110,38 +139,59 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     fontFamily: Fonts.bold,
   },
+  label: {
+    fontSize: 14,
+    fontFamily: Fonts.medium,
+    color: Colors.textDark,
+    marginBottom: 5,
+  },
   input: {
     backgroundColor: '#F7F8F9',
     borderRadius: 8,
-    padding: 15,
-    fontSize: 15,
-    color: '#8391A1',
-    marginBottom: 15,
-    fontFamily: Fonts.medium,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    width: 328,
+    height: 44,
+    fontSize: 16,
     borderWidth: 1,
-    borderColor: '#E8ECF4',
+    borderColor: Colors.borderColor,
+    color: '#8391A1',
+    fontFamily: Fonts.medium,
+    shadowColor: '#101922',
+    shadowOffset: { width: 2, height: 3 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
   },
   passwordContainer: {
     flexDirection: 'row',
     backgroundColor: '#F7F8F9',
     borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 4,
+    paddingHorizontal: 16,
+    color: '#8391A1',
+    width: 328,
+    height: 46,
+    justifyContent: 'space-between',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#E8ECF4',
-    justifyContent: 'space-between',
+    borderColor: Colors.borderColor,
+    shadowColor: '#101922',
+    shadowOffset: { width: 2, height: 3 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
   },
   passwordInput: {
     flex: 1,
-    fontSize: 15,
+    fontSize: 16,
     color: '#8391A1',
     fontFamily: Fonts.medium,
+    paddingVertical: 0,
   },
   forgotPassword: {
     marginTop: 15,
     marginBottom: 30,
-    padding: 1,
+    paddingRight: 18,
     alignSelf: 'flex-end',
   },
   forgotText: {
@@ -149,24 +199,33 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: Fonts.semiBold,
   },
-  loginBtn: {
-    backgroundColor: Colors.primary,
-    height: 56,
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    justifyContent: 'center',
+  loginButton: {
+    backgroundColor: 'transparent',
+    width: 328,
+    height: 47,
     alignItems: 'center',
-    marginBottom: 35,
+    justifyContent: 'center',
+    borderRadius: 8,
+  },
+  gradientButton: {
+    borderRadius: 8,
+    padding: 2,
+    shadowColor: '#101922',
+    shadowOffset: { width: 2, height: 3 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
   },
   loginText: {
-    fontSize: 15,
-    color: Colors.textDark,
+    fontSize: 16,
+    color: Colors.backgroundColor,
     fontFamily: Fonts.semiBold,
   },
   separatorContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 22,
+    marginTop: 60,
+    marginBottom: 24,
   },
   line: {
     flex: 1,
@@ -186,17 +245,19 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   iconBox: {
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#E8ECF4',
-    height: 56,
-    borderRadius: 8,
+    backgroundColor: '#F7F8F9',
+    height:  51.09,
+    borderRadius: 7.3,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: '#101922', 
+    shadowOffset: { width: 1.82, height: 2.74 },
+    shadowOpacity: 0.08,
+    shadowRadius: 3.65,
+    elevation: 3,
   },
   registerContainer: {
-    marginTop: 203,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -205,12 +266,12 @@ const styles = StyleSheet.create({
   registerAccountText: {
     fontSize: 15,
     fontFamily: Fonts.medium,
-    color:Colors.textDark,
+    color: Colors.textDark,
   },
   registerText: {
-    color:"#3FC06A",
-    fontSize: 15,
+    color: '#3FC06A',
+    fontSize: 12,
     fontFamily: Fonts.bold,
-    letterSpacing:1,
+    letterSpacing: 1,
   },
 });
