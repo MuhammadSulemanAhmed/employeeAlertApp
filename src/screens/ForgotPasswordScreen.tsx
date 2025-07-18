@@ -126,8 +126,8 @@ const styles = StyleSheet.create({
   content: {
     width: '100%',
     maxWidth: 328,
-    flex: 1,
-    justifyContent: 'space-between',
+    flex:1,
+        justifyContent:'space-between'
   },
   topContent: {
     flexShrink: 1,

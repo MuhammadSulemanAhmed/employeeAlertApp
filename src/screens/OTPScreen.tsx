@@ -147,14 +147,18 @@ export default OTPScreen;
 
 const styles = StyleSheet.create({
   wrapper: {
-    flex: 1,
-    justifyContent: 'flex-start',
+      flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 24,
-    alignItems: 'flex-start',
   },
   content: {
     width: '100%',
     maxWidth: 328,
+     justifyContent: 'flex-start',
+     flex:1,
+     alignItems: 'flex-start',
+
   },
   backBtn: {
     width: 41,
@@ -186,6 +190,8 @@ const styles = StyleSheet.create({
   },
   otpContainer: {
     flexDirection: 'row',
+    width: '100%',
+    maxWidth: 328,
     justifyContent: 'space-between',
     marginBottom: 60,
   },
