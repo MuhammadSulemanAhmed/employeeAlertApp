@@ -3,9 +3,14 @@ import {
   View,
   Text,
   TextInput,
-  StyleSheet,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+  TouchableWithoutFeedback,
   Keyboard,
+  StyleSheet,
+  Dimensions,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -13,12 +18,20 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParamList } from '../navigation/AuthStack';
 import Colors from '../constants/Colors';
 import Fonts from '../constants/Fonts';
+import LinearGradient from 'react-native-linear-gradient';
 
 type NavigationProp = NativeStackNavigationProp<AuthStackParamList, 'OTP'>;
 
 const OTPScreen = () => {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute();
+  const [screenDimensions, setScreenDimensions] = useState(
+    Dimensions.get('window'),
+  );
+
+  Dimensions.addEventListener('change', ({ window }) => {
+    setScreenDimensions(window);
+  });
   const { phoneOrEmail } = route.params as { phoneOrEmail: string };
 
   const [otp, setOtp] = useState(['', '', '', '']);
@@ -40,63 +53,93 @@ const OTPScreen = () => {
     const fullCode = otp.join('');
     if (fullCode.length === 4) {
       console.log('Entered OTP:', fullCode);
-       navigation.navigate('CreateNewPassword', { otpToken: fullCode });
+      navigation.navigate('CreateNewPassword', { otpToken: fullCode });
     }
   };
 
   return (
-  <View style={styles.wrapper}>
-      <View style={styles.topContent}>
-        <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
-          <Ionicons name="chevron-back" size={20} color="#1E232C" />
-        </TouchableOpacity>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            backgroundColor: Colors.backgroundColor,
+            minHeight: screenDimensions.height,
+          }}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View
+            style={[styles.wrapper, { minHeight: screenDimensions.height }]}
+          >
+            <View style={styles.content}>
+              <TouchableOpacity
+                style={styles.backBtn}
+                onPress={() => navigation.goBack()}
+              >
+                <Ionicons name="chevron-back" size={20} color="#1E232C" />
+              </TouchableOpacity>
 
-        <Text style={styles.heading}>OTP Verification</Text>
-        <Text style={styles.subText}>
-          Enter the verification code we just sent on your email address.
-        </Text>
+              <Text style={styles.heading}>OTP Verification</Text>
+              <Text style={styles.subText}>
+                Enter the verification code we just sent on your email address.
+              </Text>
 
-        <View style={styles.otpContainer}>
-          {otp.map((digit, index) => (
-            <TextInput
-              key={index}
-            ref={(ref: TextInput | null) => {
-              inputRefs.current[index] = ref;
-            }}
-              value={digit}
-              onChangeText={(value) => handleChange(index, value)}
-              keyboardType="numeric"
-              maxLength={1}
-              style={[
-                styles.otpInput,
-                digit === ''
-                  ? {
-                      backgroundColor: '#F7F8F9',
-                      borderColor: '#E8ECF4',
-                    }
-                  : {
-                      backgroundColor: '#ffffff',
-                      borderColor: '#35C2C1',
-                    },
-              ]}
-              autoFocus={index === 0}
-              onSubmitEditing={Keyboard.dismiss}
-            />
-          ))}
-        </View>
+              <View style={styles.otpContainer}>
+                {otp.map((digit, index) => (
+                  <TextInput
+                    key={index}
+                    ref={(ref: TextInput | null) => {
+                      inputRefs.current[index] = ref;
+                    }}
+                    value={digit}
+                    onChangeText={value => handleChange(index, value)}
+                    keyboardType="numeric"
+                    maxLength={1}
+                    style={[
+                      styles.otpInput,
+                      digit === ''
+                        ? {
+                            borderColor: '#E8ECF4',
+                          }
+                        : {
+                            borderColor: '#35C2C1',
+                          },
+                    ]}
+                    autoFocus={index === 0}
+                    onSubmitEditing={Keyboard.dismiss}
+                  />
+                ))}
+              </View>
 
-        <TouchableOpacity style={styles.verifyBtn} onPress={handleVerify}>
-          <Text style={styles.verifyText}>Verify</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.resendContainer}>
-        <Text style={styles.infoText}>Didn’t receive code? </Text>
-        <TouchableOpacity >
-          <Text style={styles.resendText}>Resend</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+              <LinearGradient
+                colors={[Colors.gradientStart, Colors.gradientEnd]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                locations={[0, 0.85]}
+                style={styles.gradientButton}
+              >
+                <TouchableOpacity
+                  style={styles.verifyBtn}
+                  onPress={handleVerify}
+                >
+                  <Text style={styles.verifyText}>Verify</Text>
+                </TouchableOpacity>
+              </LinearGradient>
+              <View style={styles.resendContainer}>
+                <Text style={styles.infoText}>Didn't receive a code? </Text>
+                <TouchableOpacity>
+                  <Text style={styles.resendText}>Resend</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -105,79 +148,94 @@ export default OTPScreen;
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    justifyContent: 'space-between',
-    backgroundColor: '#ffffff',
-    padding: 22,
-  },
-   topContent: {
-    flexShrink: 1,
     justifyContent: 'flex-start',
-    paddingBottom: 40,
+    padding: 24,
+    alignItems: 'flex-start',
+  },
+  content: {
+    width: '100%',
+    maxWidth: 328,
   },
   backBtn: {
     width: 41,
     height: 41,
     borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#E8ECF4',
+    backgroundColor: Colors.backgroundColor,
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: '#101922',
+    shadowOffset: { width: 2, height: 3 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
   },
   heading: {
-    fontSize: 30,
-    marginTop: 28,
-    fontFamily: Fonts.bold,
+    fontSize: 28,
     color: Colors.textDark,
+    marginTop: 28,
+    fontFamily: Fonts.semiBold,
+    letterSpacing: -1,
   },
   subText: {
-    fontSize: 16,
-    color: '#838BA1',
-    marginTop: 10,
-    marginBottom: 32,
     fontFamily: Fonts.medium,
+    marginTop: 10,
+    marginBottom: 25,
+    fontSize: 14,
+    lineHeight: 22,
+    color: '#8391A1',
   },
   otpContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 40,
+    marginBottom: 60,
   },
   otpInput: {
-    borderWidth: 1,
-    borderRadius: 8,
-    width: 70,
-    height: 60,
+    borderWidth: 1.63,
+    borderRadius: 6.53,
+    width: 76,
+    height: 57,
     textAlign: 'center',
     fontSize: 22,
     fontFamily: Fonts.bold,
     color: Colors.textDark,
+    backgroundColor: '#F7F8F9',
   },
   verifyBtn: {
-    backgroundColor: Colors.primary,
-    height: 56,
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    justifyContent: 'center',
+    backgroundColor: 'transparent',
+    width: '100%',
+    height: 47,
     alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+  },
+  gradientButton: {
+    borderRadius: 8,
+    width: '100%',
+    padding: 2,
+    shadowColor: '#101922',
+    shadowOffset: { width: 2, height: 3 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
   },
   verifyText: {
-    fontSize: 15,
-    color: '#000000',
+    fontSize: 16,
+    color: Colors.backgroundColor,
     fontFamily: Fonts.semiBold,
   },
   resendContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom:26,
+    justifyContent: 'flex-start',
+    marginTop: 10,
   },
   infoText: {
-    fontSize: 15,
+    fontSize: 12,
     fontFamily: Fonts.medium,
-    color: Colors.textDark,
+    color: '#6C6C6C',
   },
   resendText: {
-    fontSize: 15,
-    color: '#3FC06A',
+    color:'#0E1517',
+    fontSize: 12,
     fontFamily: Fonts.bold,
-    letterSpacing:1,
   },
 });

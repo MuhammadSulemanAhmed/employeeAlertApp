@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,9 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
@@ -14,47 +17,70 @@ import { AuthStackParamList } from '../navigation/AuthStack';
 import Fonts from '../constants/Fonts';
 import Colors from '../constants/Colors';
 
-const { width } = Dimensions.get('window');
-
 type NavigationProp = NativeStackNavigationProp<AuthStackParamList>;
 
 const WelcomeScreen = () => {
   const navigation = useNavigation<NavigationProp>();
+  const [screenDimensions, setScreenDimensions] = useState(
+    Dimensions.get('window'),
+  );
+
+  Dimensions.addEventListener('change', ({ window }) => {
+    setScreenDimensions(window);
+  });
 
   return (
-    <View style={styles.container}>
-      <View style={styles.imgBox}>
-        <Image
-          source={require('../../assets/images/welcome.png')}
-          style={styles.img}
-          resizeMode="contain"
-        />
-      </View>
-
-      <View style={styles.contentBox}>
-        <Text style={styles.title}>Employee Alert</Text>
-        <LinearGradient
-          colors={[Colors.gradientStart, Colors.gradientEnd]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={styles.gradientButton}
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          backgroundColor: Colors.backgroundColor,
+          minHeight: screenDimensions.height,
+        }}
+      >
+        <View
+          style={[styles.container, { minHeight: screenDimensions.height }]}
         >
-          <TouchableOpacity
-            style={styles.loginButton}
-            onPress={() => navigation.navigate('Login')}
-          >
-            <Text style={styles.loginText}>Login</Text>
-          </TouchableOpacity>
-        </LinearGradient>
+          <View style={styles.content}>
+            <View style={styles.imgBox}>
+              <Image
+                source={require('../../assets/images/welcome.png')}
+                style={styles.img}
+                resizeMode="contain"
+              />
+            </View>
 
-        <TouchableOpacity
-          style={styles.registerButton}
-          onPress={() => navigation.navigate('Register')}
-        >
-          <Text style={styles.registerText}>Register</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+            <View style={styles.contentBox}>
+              <Text style={styles.title}>Employee Alert</Text>
+              <LinearGradient
+                colors={[Colors.gradientStart, Colors.gradientEnd]}
+                 start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  locations={[0, 0.85]}
+                style={styles.gradientButton}
+              >
+                <TouchableOpacity
+                  style={styles.loginButton}
+                  onPress={() => navigation.navigate('Login')}
+                >
+                  <Text style={styles.loginText}>Login</Text>
+                </TouchableOpacity>
+              </LinearGradient>
+
+              <TouchableOpacity
+                style={styles.registerButton}
+                onPress={() => navigation.navigate('Register')}
+              >
+                <Text style={styles.registerText}>Register</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -68,13 +94,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 24,
   },
+  content: {
+    width: '100%',
+    maxWidth: 328,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   imgBox: {
-    width:290.2506408691406,
+    width: '100%',
+    maxWidth: 290.25,
     height: 346,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 80,
-
   },
   img: {
     width: '100%',
@@ -82,8 +115,7 @@ const styles = StyleSheet.create({
     borderRadius: 10.45,
   },
   contentBox: {
-    width: 328,
-    height: 'auto',
+    width: '100%',
     alignItems: 'center',
   },
   title: {
@@ -91,10 +123,11 @@ const styles = StyleSheet.create({
     color: Colors.textDark,
     fontFamily: Fonts.medium,
     marginBottom: 20,
+    textAlign: 'center',
   },
   loginButton: {
     backgroundColor: 'transparent',
-    width: 328,
+    width: '100%',
     height: 47,
     alignItems: 'center',
     justifyContent: 'center',
@@ -102,6 +135,7 @@ const styles = StyleSheet.create({
   },
   gradientButton: {
     borderRadius: 8,
+    width: '100%',
     padding: 2,
     shadowColor: '#101922',
     shadowOffset: { width: 2, height: 3 },
@@ -116,7 +150,7 @@ const styles = StyleSheet.create({
   },
   registerButton: {
     backgroundColor: '#E8ECF4',
-    width: 328,
+    width: '100%',
     height: 47,
     alignItems: 'center',
     justifyContent: 'center',
@@ -131,6 +165,6 @@ const styles = StyleSheet.create({
   registerText: {
     fontSize: 15,
     color: Colors.textDark,
-    fontFamily: Fonts.semiBold,
+    fontFamily: Fonts.medium,
   },
 });

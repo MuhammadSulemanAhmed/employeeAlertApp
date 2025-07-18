@@ -3,9 +3,15 @@ import {
   View,
   Text,
   TextInput,
-  StyleSheet,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+  StyleSheet,
   Pressable,
+  Dimensions,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
@@ -24,100 +30,131 @@ type NavigationProp = NativeStackNavigationProp<AuthStackParamList>;
 const LoginScreen = () => {
   const navigation = useNavigation<NavigationProp>();
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [screenDimensions, setScreenDimensions] = useState(Dimensions.get('window'));
+
+  Dimensions.addEventListener('change', ({ window }) => {
+    setScreenDimensions(window);
+  });
+
   return (
-    <View style={styles.container}>
-      <View style={styles.topContent}>
-        <TouchableOpacity
-          style={styles.backBtn}
-          onPress={() => navigation.goBack()}
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            backgroundColor: Colors.backgroundColor,
+            minHeight: screenDimensions.height,
+          }}
+          keyboardShouldPersistTaps="handled"
         >
-          <Ionicons name="chevron-back" size={19} color="#1E232C" />
-        </TouchableOpacity>
-
-        <Text style={styles.heading}>Welcome back!</Text>
-
-        <View style={{ marginBottom: 20 }}>
-          <Text style={styles.label}>Email *</Text>
-          <TextInput
-            placeholder="Email@example.com"
-            placeholderTextColor="#8391A1"
-            style={styles.input}
-          />
-        </View>
-
-        <View>
-          <Text style={styles.label}>Enter password *</Text>
-          <View style={styles.passwordContainer}>
-            <TextInput
-              placeholder="***********"
-              placeholderTextColor="#8391A1"
-              secureTextEntry={!passwordVisible}
-              style={styles.passwordInput}
-              autoCapitalize="none"
-            />
-            <Pressable onPress={() => setPasswordVisible(!passwordVisible)}>
-              <EyeIcon width={22} height={22} />
-            </Pressable>
+          <View style={[styles.container, { minHeight: screenDimensions.height }]}>
+            <View style={styles.content}>
+              <View style={styles.topContent}>
+                <TouchableOpacity
+                  style={styles.backBtn}
+                  onPress={() => navigation.goBack()}
+                >
+                  <Ionicons name="chevron-back" size={19} color="#1E232C" />
+                </TouchableOpacity>
+                <Text style={styles.heading}>Welcome back!</Text>
+                <View style={{ marginBottom: 20 }}>
+                  <Text style={styles.label}>Email *</Text>
+                  <TextInput
+                    placeholder="Email@example.com"
+                    placeholderTextColor="#8391A1"
+                    style={styles.input}
+                  />
+                </View>
+                <View>
+                  <Text style={styles.label}>Enter password *</Text>
+                  <View style={styles.passwordContainer}>
+                    <TextInput
+                      placeholder="***********"
+                      placeholderTextColor="#8391A1"
+                      secureTextEntry={!passwordVisible}
+                      style={styles.passwordInput}
+                      autoCapitalize="none"
+                    />
+                    <Pressable
+                      onPress={() => setPasswordVisible(!passwordVisible)}
+                    >
+                      <EyeIcon width={22} height={22} />
+                    </Pressable>
+                  </View>
+                  <TouchableOpacity
+                    style={styles.forgotPassword}
+                    onPress={() => navigation.navigate('ForgotPassword')}
+                  >
+                    <Text style={styles.forgotText}>Forgot Password?</Text>
+                  </TouchableOpacity>
+                </View>
+                <LinearGradient
+                  colors={[Colors.gradientStart, Colors.gradientEnd]}
+                   start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  locations={[0, 0.85]}
+                  style={styles.gradientButton}
+                >
+                  <TouchableOpacity style={styles.loginButton}>
+                    <Text style={styles.loginText}>Login</Text>
+                  </TouchableOpacity>
+                </LinearGradient>
+                <View style={styles.separatorContainer}>
+                  <View style={styles.line} />
+                  <Text style={styles.separatorText}>Or Login with</Text>
+                  <View style={styles.line} />
+                </View>
+                <View style={styles.socialIcons}>
+                  <TouchableOpacity style={[styles.iconBox, { marginRight: 8 }]}>
+                    <FacebookIcon width={26} height={26} />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={[styles.iconBox, { marginRight: 8 }]}>
+                    <GoogleIcon width={26} height={26} />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.iconBox}>
+                    <AppleIcon width={26} height={26} />
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View style={styles.registerContainer}>
+                <Text style={styles.registerAccountText}>
+                  Don't have an account?{' '}
+                </Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+                  <Text style={styles.registerText}>Register Now</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
-          <TouchableOpacity
-            style={styles.forgotPassword}
-            onPress={() => navigation.navigate('ForgotPassword')}
-          >
-            <Text style={styles.forgotText}>Forgot Password?</Text>
-          </TouchableOpacity>
-        </View>
-
-        <LinearGradient
-          colors={[Colors.gradientStart, Colors.gradientEnd]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={styles.gradientButton}
-        >
-          <TouchableOpacity style={styles.loginButton}>
-            <Text style={styles.loginText}>Login</Text>
-          </TouchableOpacity>
-        </LinearGradient>
-
-        <View style={styles.separatorContainer}>
-          <View style={styles.line} />
-          <Text style={styles.separatorText}>Or Login with</Text>
-          <View style={styles.line} />
-        </View>
-
-        <View style={styles.socialIcons}>
-          <TouchableOpacity style={[styles.iconBox, { marginRight: 8 }]}>
-            <FacebookIcon width={26} height={26} />
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.iconBox, { marginRight: 8 }]}>
-            <GoogleIcon width={26} height={26} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.iconBox}>
-            <AppleIcon width={26} height={26} />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <View style={styles.registerContainer}>
-        <Text style={styles.registerAccountText}>Don’t have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-          <Text style={styles.registerText}>Register Now</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
 export default LoginScreen;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.backgroundColor,
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 24,
+  },
+  content: {
+    width: '100%',
+    maxWidth: 328,
+    flex: 1,
     justifyContent: 'space-between',
   },
   topContent: {
-    flexShrink: 1,
+    flex: 1,
     justifyContent: 'flex-start',
+    width: '100%',
     paddingBottom: 40,
   },
   backBtn: {
@@ -150,7 +187,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 16,
-    width: 328,
+    width: '100%',
     height: 44,
     fontSize: 16,
     borderWidth: 1,
@@ -169,7 +206,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 16,
     color: '#8391A1',
-    width: 328,
+    width: '100%',
     height: 46,
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -201,7 +238,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     backgroundColor: 'transparent',
-    width: 328,
+    width: '100%',
     height: 47,
     alignItems: 'center',
     justifyContent: 'center',
@@ -209,6 +246,7 @@ const styles = StyleSheet.create({
   },
   gradientButton: {
     borderRadius: 8,
+    width: '100%',
     padding: 2,
     shadowColor: '#101922',
     shadowOffset: { width: 2, height: 3 },
@@ -224,6 +262,7 @@ const styles = StyleSheet.create({
   separatorContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    width: '100%',
     marginTop: 60,
     marginBottom: 24,
   },
@@ -246,12 +285,12 @@ const styles = StyleSheet.create({
   },
   iconBox: {
     backgroundColor: '#F7F8F9',
-    height:  51.09,
+    height: 51.09,
     borderRadius: 7.3,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#101922', 
+    shadowColor: '#101922',
     shadowOffset: { width: 1.82, height: 2.74 },
     shadowOpacity: 0.08,
     shadowRadius: 3.65,
@@ -261,15 +300,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 26,
+    marginBottom: 50,
+    width: '100%',
   },
   registerAccountText: {
-    fontSize: 15,
+    fontSize: 12,
     fontFamily: Fonts.medium,
     color: Colors.textDark,
+    letterSpacing: 1,
   },
   registerText: {
-    color: '#3FC06A',
+    color:Colors.primary,
     fontSize: 12,
     fontFamily: Fonts.bold,
     letterSpacing: 1,
