@@ -12,13 +12,16 @@ import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AuthStackParamList } from '../navigation/AuthStack';
-import Colors from '../constants/Colors';
-import Fonts from '../constants/Fonts';
+import { AppStackParamList } from '../../navigation/AppStack';
+import Colors from '../../constants/Colors';
+import Fonts from '../../constants/Fonts';
 
-type NavigationProp = NativeStackNavigationProp<AuthStackParamList>;
+type NavigationProp = NativeStackNavigationProp<AppStackParamList>;
 
-const PasswordChangedScreen = () => {
+interface BuildProfileProps {
+  setIsLoggedIn: (value: boolean) => void;
+}
+const BuildProfile = ({ setIsLoggedIn }: BuildProfileProps) => {
   const navigation = useNavigation<NavigationProp>();
   const [screenDimensions, setScreenDimensions] = useState(
     Dimensions.get('window'),
@@ -44,23 +47,28 @@ const PasswordChangedScreen = () => {
     >
       <View style={[styles.container, { minHeight: screenDimensions.height }]}>
         <View style={styles.content}>
-          <TouchableOpacity
-            style={styles.backBtn}
-            onPress={() => navigation.goBack()}
-          >
-            <Ionicons name="chevron-back" size={20} color="#1E232C" />
-          </TouchableOpacity>
+          <View style={styles.topContent}>
+            <TouchableOpacity
+              style={styles.backBtn}
+              onPress={() => {
+                setIsLoggedIn(false); 
+              }}
+            >
+              <Ionicons name="chevron-back" size={19} color="#1E232C" />
+            </TouchableOpacity>
 
-          <View style={styles.messageContainer}>
-            <View style={styles.iconContainer}>
-              <View style={styles.iconInner}>
-                <Ionicons name="checkmark" size={58} color="#fff" />
+            <View style={styles.messageContainer}>
+              <View style={styles.titleContainer}>
+                <Text style={styles.firstContent}>
+                  Let's build Your{'\n'}
+                  <Text style={styles.profileText}>Profile</Text>
+                </Text>
               </View>
+              <Text style={styles.subtitle}>
+                To instantly alert employers and promote team safety while on
+                site.
+              </Text>
             </View>
-            <Text style={styles.title}>Password Changed</Text>
-            <Text style={styles.subtitle}>
-              Your password has been changed successfully.
-            </Text>
           </View>
 
           <LinearGradient
@@ -71,10 +79,10 @@ const PasswordChangedScreen = () => {
             style={styles.gradientButton}
           >
             <TouchableOpacity
-              style={styles.loginButton}
-              onPress={() => navigation.navigate('Login')}
+              style={styles.createButton}
+              onPress={() => navigation.navigate('BasicInfo')}
             >
-              <Text style={styles.loginButtonText}>Back to login</Text>
+              <Text style={styles.createButtonText}>Create Profile</Text>
             </TouchableOpacity>
           </LinearGradient>
         </View>
@@ -83,7 +91,7 @@ const PasswordChangedScreen = () => {
   );
 };
 
-export default PasswordChangedScreen;
+export default BuildProfile;
 
 const styles = StyleSheet.create({
   container: {
@@ -96,6 +104,13 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 328,
     flex: 1,
+    justifyContent: 'space-between',
+  },
+  topContent: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    width: '100%',
+    paddingBottom: 40,
   },
   backBtn: {
     width: 41,
@@ -111,41 +126,34 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   messageContainer: {
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
+  titleContainer: {
     marginTop: 28,
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
-  iconContainer: {
-    width: 104,
-    height: 104,
-    borderRadius: 52,
-    backgroundColor: '#50CE762B',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  iconInner: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#3FC06A',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 28,
+  firstContent: {
+    fontSize: 34.5,
+    fontFamily: Fonts.regular,
     color: Colors.textDark,
+    lineHeight: 50,
+  },
+  profileText: {
     fontFamily: Fonts.semiBold,
-    letterSpacing: -1,
+    fontSize: 47.97,
+    color: Colors.primary,
+    lineHeight: 50,
   },
   subtitle: {
+    marginTop: 10,
     fontFamily: Fonts.medium,
-    marginTop: 5,
     fontSize: 14,
     lineHeight: 22,
     color: '#8391A1',
   },
-  loginButton: {
+  createButton: {
     backgroundColor: 'transparent',
     width: '100%',
     height: 47,
@@ -154,7 +162,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   gradientButton: {
-    marginTop: 60,
     borderRadius: 8,
     width: '100%',
     padding: 2,
@@ -164,7 +171,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
-  loginButtonText: {
+  createButtonText: {
     fontSize: 16,
     color: Colors.backgroundColor,
     fontFamily: Fonts.semiBold,

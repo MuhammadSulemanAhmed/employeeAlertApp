@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {
   View,
   Text,
@@ -28,9 +28,13 @@ const ForgotPasswordScreen = () => {
     Dimensions.get('window'),
   );
 
-  Dimensions.addEventListener('change', ({ window }) => {
-    setScreenDimensions(window);
-  });
+  useEffect(() => {
+     const subscription = Dimensions.addEventListener('change', ({ window }) => {
+       setScreenDimensions(window);
+     });
+ 
+     return () => subscription?.remove();
+   }, []);
 
   const handleSendCode = () => {
     if (email.trim() === '') {
@@ -126,8 +130,8 @@ const styles = StyleSheet.create({
   content: {
     width: '100%',
     maxWidth: 328,
-    flex:1,
-        justifyContent:'space-between'
+    flex: 1,
+    justifyContent: 'space-between',
   },
   topContent: {
     flexShrink: 1,
