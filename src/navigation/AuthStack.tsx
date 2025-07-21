@@ -7,10 +7,10 @@ import OTPScreen from '../screens/OTPScreen';
 import CreateNewPasswordScreen from '../screens/CreateNewPasswordScreen';
 import PasswordChangedScreen from '../screens/PasswordChangedScreen';
 import RegisterScreen from '../screens/RegisterScreen';
-import RegisterSuccessScreen from '../screens/RegisterSuccessScreen';
-import Onboarding1 from '../screens/onboarding/Onboarding1';
-import Onboarding2 from '../screens/onboarding/Onboarding2';
-import Onboarding3 from '../screens/onboarding/Onboarding3';
+import OnboardingOne from '../screens/onboarding/OnboardingOne';
+import OnboardingTwo from '../screens/onboarding/OnboardingTwo';
+import OnboardingThree from '../screens/onboarding/OnboardingThree';
+
 
 
 export type AuthStackParamList = {
@@ -21,10 +21,9 @@ export type AuthStackParamList = {
   CreateNewPassword: { otpToken: string };
   PasswordChanged: undefined;
   Register: undefined;
-  RegisterSuccess: undefined;
-  Onboarding1: undefined;
-  Onboarding2: undefined;
-  Onboarding3: undefined;
+  OnboardingOne: undefined;
+  OnboardingTwo: undefined;
+  OnboardingThree: undefined;
 };
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
@@ -39,10 +38,9 @@ const AuthStack = () => {
       <Stack.Screen name="CreateNewPassword" component={CreateNewPasswordScreen} />
       <Stack.Screen name="PasswordChanged" component={PasswordChangedScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
-      <Stack.Screen name="RegisterSuccess" component={RegisterSuccessScreen} />
-      <Stack.Screen name="Onboarding1" component={Onboarding1} />
-      <Stack.Screen name="Onboarding2" component={Onboarding2} />
-      <Stack.Screen name="Onboarding3" component={Onboarding3} />
+      <Stack.Screen name="OnboardingOne" component={OnboardingOne} />
+      <Stack.Screen name="OnboardingTwo" component={OnboardingTwo} />
+      <Stack.Screen name="OnboardingThree" component={OnboardingThree} />
     </Stack.Navigator>
   );
 };
