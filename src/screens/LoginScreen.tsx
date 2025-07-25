@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -12,7 +12,9 @@ import {
   StyleSheet,
   Pressable,
   Dimensions,
+  Alert,
 } from 'react-native';
+import SuccessDialog from '../components/SuccessDialog ';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
@@ -27,14 +29,41 @@ import Fonts from '../constants/Fonts';
 
 type NavigationProp = NativeStackNavigationProp<AuthStackParamList>;
 
-const LoginScreen = () => {
-  const navigation = useNavigation<NavigationProp>();
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [screenDimensions, setScreenDimensions] = useState(Dimensions.get('window'));
+// Add type for props
+interface LoginScreenProps {
+  setIsLoggedIn: (value: boolean) => void;
+}
 
-  Dimensions.addEventListener('change', ({ window }) => {
-    setScreenDimensions(window);
-  });
+const LoginScreen = ({ setIsLoggedIn }: LoginScreenProps) => {
+  const navigation = useNavigation<NavigationProp>();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [screenDimensions, setScreenDimensions] = useState(
+    Dimensions.get('window'),
+  );
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  useEffect(() => {
+    const subscription = Dimensions.addEventListener('change', ({ window }) => {
+      setScreenDimensions(window);
+    });
+
+    return () => subscription?.remove();
+  }, []);
+
+  const handleLogin = () => {
+    if (!email.trim() || !password.trim()) {
+      Alert.alert('Please enter both email and password');
+      return;
+    }
+    setShowSuccess(true);
+
+    setTimeout(() => {
+      setShowSuccess(false);
+      setIsLoggedIn(true); 
+    }, 3000);
+  };
 
   return (
     <KeyboardAvoidingView
@@ -51,7 +80,9 @@ const LoginScreen = () => {
           }}
           keyboardShouldPersistTaps="handled"
         >
-          <View style={[styles.container, { minHeight: screenDimensions.height }]}>
+          <View
+            style={[styles.container, { minHeight: screenDimensions.height }]}
+          >
             <View style={styles.content}>
               <View style={styles.topContent}>
                 <TouchableOpacity
@@ -67,6 +98,8 @@ const LoginScreen = () => {
                     placeholder="Email@example.com"
                     placeholderTextColor="#8391A1"
                     style={styles.input}
+                    value={email}
+                    onChangeText={setEmail}
                   />
                 </View>
                 <View>
@@ -78,6 +111,8 @@ const LoginScreen = () => {
                       secureTextEntry={!passwordVisible}
                       style={styles.passwordInput}
                       autoCapitalize="none"
+                      value={password}
+                      onChangeText={setPassword}
                     />
                     <Pressable
                       onPress={() => setPasswordVisible(!passwordVisible)}
@@ -94,25 +129,33 @@ const LoginScreen = () => {
                 </View>
                 <LinearGradient
                   colors={[Colors.gradientStart, Colors.gradientEnd]}
-                   start={{ x: 0, y: 0 }}
+                  start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
                   locations={[0, 0.85]}
                   style={styles.gradientButton}
                 >
-                  <TouchableOpacity style={styles.loginButton}>
+                  <TouchableOpacity
+                    style={styles.loginButton} 
+                    onPress={handleLogin}
+                  >
                     <Text style={styles.loginText}>Login</Text>
                   </TouchableOpacity>
                 </LinearGradient>
+                {showSuccess && <SuccessDialog visible={showSuccess} />}
                 <View style={styles.separatorContainer}>
                   <View style={styles.line} />
                   <Text style={styles.separatorText}>Or Login with</Text>
                   <View style={styles.line} />
                 </View>
                 <View style={styles.socialIcons}>
-                  <TouchableOpacity style={[styles.iconBox, { marginRight: 8 }]}>
+                  <TouchableOpacity
+                    style={[styles.iconBox, { marginRight: 8 }]}
+                  >
                     <FacebookIcon width={26} height={26} />
                   </TouchableOpacity>
-                  <TouchableOpacity style={[styles.iconBox, { marginRight: 8 }]}>
+                  <TouchableOpacity
+                    style={[styles.iconBox, { marginRight: 8 }]}
+                  >
                     <GoogleIcon width={26} height={26} />
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.iconBox}>
@@ -124,7 +167,9 @@ const LoginScreen = () => {
                 <Text style={styles.registerAccountText}>
                   Don't have an account?{' '}
                 </Text>
-                <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Register')}
+                >
                   <Text style={styles.registerText}>Register Now</Text>
                 </TouchableOpacity>
               </View>
@@ -228,7 +273,7 @@ const styles = StyleSheet.create({
   forgotPassword: {
     marginTop: 15,
     marginBottom: 30,
-    paddingRight: 18,
+    paddingRight: 2,
     alignSelf: 'flex-end',
   },
   forgotText: {
@@ -245,6 +290,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   gradientButton: {
+    marginTop:30,
     borderRadius: 8,
     width: '100%',
     padding: 2,
@@ -310,7 +356,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   registerText: {
-    color:Colors.primary,
+    color: Colors.primary,
     fontSize: 12,
     fontFamily: Fonts.bold,
     letterSpacing: 1,

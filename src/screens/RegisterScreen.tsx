@@ -351,7 +351,4 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.bold,
     letterSpacing: 1,
   },
-
-
-
 });

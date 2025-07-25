@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Image,
   TouchableOpacity,
-  Dimensions,
-  KeyboardAvoidingView,
   ScrollView,
-  Platform,
+  Dimensions,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
@@ -25,15 +23,15 @@ const WelcomeScreen = () => {
     Dimensions.get('window'),
   );
 
-  Dimensions.addEventListener('change', ({ window }) => {
-    setScreenDimensions(window);
-  });
+  useEffect(() => {
+    const subscription = Dimensions.addEventListener('change', ({ window }) => {
+      setScreenDimensions(window);
+    });
+
+    return () => subscription?.remove();
+  }, []);
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
       <ScrollView
         contentContainerStyle={{
           flexGrow: 1,
@@ -57,9 +55,9 @@ const WelcomeScreen = () => {
               <Text style={styles.title}>Employee Alert</Text>
               <LinearGradient
                 colors={[Colors.gradientStart, Colors.gradientEnd]}
-                 start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                  locations={[0, 0.85]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                locations={[0, 0.85]}
                 style={styles.gradientButton}
               >
                 <TouchableOpacity
@@ -80,7 +78,6 @@ const WelcomeScreen = () => {
           </View>
         </View>
       </ScrollView>
-    </KeyboardAvoidingView>
   );
 };
 

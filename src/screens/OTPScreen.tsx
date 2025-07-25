@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState,useEffect } from 'react';
 import {
   View,
   Text,
@@ -29,9 +29,13 @@ const OTPScreen = () => {
     Dimensions.get('window'),
   );
 
-  Dimensions.addEventListener('change', ({ window }) => {
-    setScreenDimensions(window);
-  });
+   useEffect(() => {
+      const subscription = Dimensions.addEventListener('change', ({ window }) => {
+        setScreenDimensions(window);
+      });
+  
+      return () => subscription?.remove();
+    }, []);
   const { phoneOrEmail } = route.params as { phoneOrEmail: string };
 
   const [otp, setOtp] = useState(['', '', '', '']);

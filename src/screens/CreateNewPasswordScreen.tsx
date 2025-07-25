@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {
   View,
   Text,
@@ -38,9 +38,13 @@ const CreateNewPasswordScreen = () => {
     Dimensions.get('window'),
   );
 
-  Dimensions.addEventListener('change', ({ window }) => {
-    setScreenDimensions(window);
-  });
+  useEffect(() => {
+     const subscription = Dimensions.addEventListener('change', ({ window }) => {
+       setScreenDimensions(window);
+     });
+ 
+     return () => subscription?.remove();
+   }, []);
 
   const handleResetPassword = () => {
     if (newPassword && newPassword === confirmPassword) {

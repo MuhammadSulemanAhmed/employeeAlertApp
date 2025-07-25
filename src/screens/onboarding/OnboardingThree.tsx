@@ -36,15 +36,16 @@ const OnboardingThree = () => {
         minHeight: screenDimensions.height,
       }}
     >
-      <View style={styles.container}>
-        <View style={styles.header}>
+      <View style={[styles.container, { minHeight: screenDimensions.height }]}>
+             <View style={styles.content}>
+        <View style={styles.topContent}>
           <TouchableOpacity
             style={styles.backBtn}
             onPress={() => navigation.goBack()}
           >
             <Ionicons name="chevron-back" size={19} color="#1E232C" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <Text style={styles.skipText}>Skip</Text>
           </TouchableOpacity>
         </View>
@@ -76,25 +77,29 @@ const OnboardingThree = () => {
           </TouchableOpacity>
         </LinearGradient>
       </View>
+      </View>
     </ScrollView>
   );
 };
 export default OnboardingThree
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#F9FAFB',
+   flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 20,
     padding: 24,
   },
-  header: {
+    content: {
+    width: '100%',
+    maxWidth: 328,
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  topContent: {
     paddingTop: 12,
-    paddingHorizontal: 24,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 270
   },
   backBtn: {
     width: 41,
@@ -112,17 +117,19 @@ const styles = StyleSheet.create({
   skipText: {
     fontSize: 12,
     color: '#8391A1',
-    paddingTop: 15.5,
+    paddingTop: 12.5,
   },
   image: {
     width: 290.25,
     height: 346,
     marginTop: 3,
+       alignSelf: 'center',
   },
   dotsContainer: {
     flexDirection: 'row',
     marginTop: 30,
     marginBottom: 72,
+       alignSelf: 'center',
   },
   dot: {
     width: 12,
@@ -141,7 +148,7 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.semiBold,
     color: Colors.textDark,
     textAlign: 'center',
-    lineHeight: 26,
+    lineHeight: 18.2,
    marginBottom: 2,
     letterSpacing: -1
   },
@@ -163,7 +170,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 4,
     elevation: 3,
-    marginTop: 48,
+    marginTop: 40,
+    marginBottom:58,
   },
   button: {
     backgroundColor: 'transparent',

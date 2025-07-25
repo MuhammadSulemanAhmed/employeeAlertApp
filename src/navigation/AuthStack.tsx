@@ -11,8 +11,6 @@ import OnboardingOne from '../screens/onboarding/OnboardingOne';
 import OnboardingTwo from '../screens/onboarding/OnboardingTwo';
 import OnboardingThree from '../screens/onboarding/OnboardingThree';
 
-
-
 export type AuthStackParamList = {
   Welcome: undefined;
   Login: undefined;
@@ -26,16 +24,27 @@ export type AuthStackParamList = {
   OnboardingThree: undefined;
 };
 
-const Stack = createNativeStackNavigator<AuthStackParamList>();
+interface AuthStackProps {
+  setIsLoggedIn: (value: boolean) => void;
+}
 
-const AuthStack = () => {
+const Stack = createNativeStackNavigator<AuthStackParamList>();
+const AuthStack = ({ setIsLoggedIn }: AuthStackProps) => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Welcome">
+    <Stack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName="Welcome"
+    >
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
-      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Login">
+        {props => <LoginScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
+      </Stack.Screen>
       <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
       <Stack.Screen name="OTP" component={OTPScreen} />
-      <Stack.Screen name="CreateNewPassword" component={CreateNewPasswordScreen} />
+      <Stack.Screen
+        name="CreateNewPassword"
+        component={CreateNewPasswordScreen}
+      />
       <Stack.Screen name="PasswordChanged" component={PasswordChangedScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="OnboardingOne" component={OnboardingOne} />
