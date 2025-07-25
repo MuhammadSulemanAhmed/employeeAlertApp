@@ -51,7 +51,7 @@ const BuildProfile = ({ setIsLoggedIn }: BuildProfileProps) => {
             <TouchableOpacity
               style={styles.backBtn}
               onPress={() => {
-                setIsLoggedIn(false); 
+                setIsLoggedIn(false);
               }}
             >
               <Ionicons name="chevron-back" size={19} color="#1E232C" />
@@ -155,8 +155,6 @@ const styles = StyleSheet.create({
   },
   createButton: {
     backgroundColor: 'transparent',
-    width: '100%',
-    height: 47,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 8,
@@ -164,6 +162,9 @@ const styles = StyleSheet.create({
   gradientButton: {
     borderRadius: 8,
     width: '100%',
+    height: 47,
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: 2,
     shadowColor: '#101922',
     shadowOffset: { width: 2, height: 3 },

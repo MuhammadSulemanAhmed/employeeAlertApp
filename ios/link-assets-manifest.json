@@ -1,0 +1,37 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Inter_18pt-Bold.ttf",
+      "sha1": "518a0361a245a66b49bc24ae0137f38328197bdc"
+    },
+    {
+      "path": "assets/fonts/Inter_18pt-Medium.ttf",
+      "sha1": "e2d21cdc9730ce4d4bdccb3476413a5b79fe7d52"
+    },
+    {
+      "path": "assets/fonts/Inter_18pt-Regular.ttf",
+      "sha1": "bd1976c1f019853ab6143ef1246e25aa66fd990e"
+    },
+    {
+      "path": "assets/fonts/Inter_18pt-SemiBold.ttf",
+      "sha1": "f3e44abd6661d5b861e66db22f4f79a6c466cd00"
+    },
+    {
+      "path": "assets/fonts/Urbanist-Bold.ttf",
+      "sha1": "693ea0480e028eb1ac55527a92421b7c932eea1e"
+    },
+    {
+      "path": "assets/fonts/Urbanist-Medium.ttf",
+      "sha1": "f68fbe2907f0f54404642cdb9a11ff626301a130"
+    },
+    {
+      "path": "assets/fonts/Urbanist-Regular.ttf",
+      "sha1": "d2e596224a2ea7c2c7eb9f6edbb79664d6f3c1da"
+    },
+    {
+      "path": "assets/fonts/Urbanist-SemiBold.ttf",
+      "sha1": "3ca7f3dbb6ab4a1421bcae991d491f57b28c36a0"
+    }
+  ]
+}

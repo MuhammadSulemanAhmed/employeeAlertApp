@@ -22,8 +22,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import Colors from '../../constants/Colors';
 import Fonts from '../../constants/Fonts';
 
-type NavigationProp = NativeStackNavigationProp<AppStackParamList, 'BasicInfo'>;
-const BasicInfo = () => {
+type NavigationProp = NativeStackNavigationProp<
+  AppStackParamList,
+  'PersonalInfo'
+>;
+
+const PersonalInfo = () => {
   const navigation = useNavigation<NavigationProp>();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -73,12 +77,10 @@ const BasicInfo = () => {
   };
   const handleNext = () => {
     if (validate()) {
-      navigation.navigate('EmergencyContacts');
+      navigation.navigate('Tabs',{screen:'Account'});
     }
   };
 
-  const hasRequiredErrors = errors.firstName || errors.lastName || errors.dob;
-  const isLandscape = screen.width > screen.height;
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -90,53 +92,21 @@ const BasicInfo = () => {
           contentContainerStyle={{
             flexGrow: 1,
             backgroundColor: Colors.backgroundColor,
+            minHeight: screenDimensions.height,
           }}
           keyboardShouldPersistTaps="handled"
         >
-          <View style={{ flex: 1 }}>
-            <View style={{ flex: 1 }}>
-              <View
-                style={[
-                  styles.backbtnContainer,
-                  isLandscape && {
-                    alignSelf: 'center',
-                    width: 328,
-                  },
-                ]}
-              >
+          <View style={[styles.container, { minHeight: screenDimensions.height }]}>
+            <View style={styles.content}>
+              <View style={styles.topContent}>
                 <TouchableOpacity
+                  style={styles.backBtn}
                   onPress={() => navigation.goBack()}
-                  style={styles.backButton}
                 >
-                  <Ionicons name="chevron-back" size={24} color="#1E232C" />
+                  <Ionicons name="chevron-back" size={19} color="#1E232C" />
                 </TouchableOpacity>
-              </View>
 
-              <View
-                style={[
-                  styles.progressBarWrapper,
-                  isLandscape && {
-                    alignSelf: 'center',
-                    width: 328,
-                  },
-                ]}
-              >
-                <View style={styles.progress} />
-                <View style={styles.incomplete} />
-                <View style={styles.incomplete} />
-              </View>
-
-              <View
-                style={[
-                  styles.innerContent,
-                  { width: screenDimensions.width - 48 },
-                ]}
-              >
-                <Text style={styles.title}>Basic Info</Text>
-                <Text style={styles.description}>
-                  To instantly alert employers and promote team safety while on
-                  site.
-                </Text>
+                <Text style={styles.heading}>Personal Information</Text>
 
                 <View style={styles.fieldContainer}>
                   <Text style={styles.label}>First Name *</Text>
@@ -166,25 +136,33 @@ const BasicInfo = () => {
 
                 <View style={styles.fieldContainer}>
                   <Text style={styles.label}>Last Name *</Text>
-                  <TextInput
-                    placeholder={errors.lastName ? ' ' : 'Valentine'}
-                    placeholderTextColor="#8391A1"
-                    value={lastName}
-                    onChangeText={text => {
-                      setLastName(text);
-                      if (errors.lastName)
-                        setErrors(prev => ({ ...prev, lastName: undefined }));
-                    }}
+                  <View
                     style={[
-                      styles.input,
+                      styles.passwordContainer,
                       {
-                        borderWidth: 1,
                         borderColor: errors.lastName
                           ? '#FF000080'
                           : Colors.borderColor,
                       },
                     ]}
-                  />
+                  >
+                    <TextInput
+                      placeholder={errors.lastName ? ' ' : 'Valentine'}
+                      placeholderTextColor="#8391A1"
+                      value={lastName}
+                      onChangeText={text => {
+                        setLastName(text);
+                        if (errors.lastName)
+                          setErrors(prev => ({ ...prev, lastName: undefined }));
+                      }}
+                      style={styles.passwordInput}
+                    />
+                    <Ionicons
+                      name="lock-closed-outline"
+                      size={18}
+                      color="#8391A1"
+                    />
+                  </View>
                   {errors.lastName && (
                     <Text style={styles.errorMessage}>{errors.lastName}</Text>
                   )}
@@ -205,7 +183,7 @@ const BasicInfo = () => {
                         styles.input,
                         {
                           borderWidth: 1,
-                          borderColor: errors.lastName
+                          borderColor: errors.dob
                             ? '#FF000080'
                             : Colors.borderColor,
                         },
@@ -226,42 +204,38 @@ const BasicInfo = () => {
                   )}
                 </View>
 
-                <View style={styles.switchContainer}>
-                  <TouchableOpacity
-                    onPress={() => setIsContractor(!isContractor)}
-                    style={[
-                      styles.contractor,
-                      {
-                        backgroundColor: isContractor
-                          ? Colors.primary
-                          : 'transparent',
-                        borderColor: Colors.primary,
-                        borderWidth: isContractor ? 0 : 1,
-                      },
-                    ]}
-                  >
-                    {isContractor && (
-                      <Ionicons name="checkmark" size={10} color="#FFFFFF" />
-                    )}
-                  </TouchableOpacity>
-                  <Text style={styles.contractorText}>
-                    Are you a contractor?
-                  </Text>
+                <View style={styles.fieldContainer}>
+                  <Text style={styles.label}>Address</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Morton Campus, Tauton, MA"
+                    placeholderTextColor="#8391A1"
+                    value={address}
+                    onChangeText={setAddress}
+                  />
                 </View>
-                {!hasRequiredErrors && (
-                  <View style={styles.fieldContainer}>
-                    <Text style={styles.label}>
-                      What is your project address?
-                    </Text>
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Morton Campus, Tauton, MA"
-                      placeholderTextColor="#8391A1"
-                      value={address}
-                      onChangeText={setAddress}
-                    />
+
+                <View style={styles.fieldContainer}>
+                  <Text style={[styles.label, { fontSize: 18, marginTop: 25 }]}>
+                    Contact Info
+                  </Text>
+                  <View style={styles.contactContainer}>
+                    <View style={styles.contactItem}>
+                      <Text style={styles.contactText}>+1 300-2123-2222</Text>
+                      <TouchableOpacity>
+                        <Text style={styles.contacteditText}>Edit</Text>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={styles.contactItem}>
+                      <Text style={styles.contactText}>
+                        tuna.valen@gmail.com
+                      </Text>
+                      <TouchableOpacity>
+                        <Text style={styles.contacteditText}>Edit</Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
-                )}
+                </View>
 
                 <LinearGradient
                   colors={[Colors.gradientStart, Colors.gradientEnd]}
@@ -271,10 +245,10 @@ const BasicInfo = () => {
                   style={styles.gradientButton}
                 >
                   <TouchableOpacity
-                    style={styles.nextButton}
+                    style={styles.loginButton}
                     onPress={handleNext}
                   >
-                    <Text style={styles.nextbuttonText}>Next</Text>
+                    <Text style={styles.loginText}>Update</Text>
                   </TouchableOpacity>
                 </LinearGradient>
               </View>
@@ -286,15 +260,28 @@ const BasicInfo = () => {
   );
 };
 
-export default BasicInfo;
+export default PersonalInfo;
+
 const styles = StyleSheet.create({
-  backbtnContainer: {
-    paddingTop: 24,
-    paddingLeft: 24,
-    paddingBottom: 17,
-    width: '100%',
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
   },
-  backButton: {
+  content: {
+    width: '100%',
+    maxWidth: 328,
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  topContent: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    width: '100%',
+    paddingBottom: 40,
+  },
+  backBtn: {
     width: 41,
     height: 41,
     borderRadius: 12,
@@ -307,41 +294,11 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
-  progressBarWrapper: {
-    flexDirection: 'row',
-    width: '100%',
-    height: 6,
-  },
-  progress: {
-    flex: 1,
-    backgroundColor: Colors.primary,
-  },
-
-  incomplete: {
-    flex: 1,
-    backgroundColor: '#EEF0F3',
-    marginLeft: 4,
-  },
-  innerContent: {
-    width: '100%',
-    maxWidth: 328,
-    margin: 'auto',
-    flexGrow: 1,
-    paddingTop: 41,
-  },
-  title: {
-    fontSize: 28,
-    fontFamily: Fonts.semiBold,
-    letterSpacing: -1,
+  heading: {
+    fontSize: 30,
     color: Colors.textDark,
-    marginBottom: 10,
-  },
-  description: {
-    fontSize: 14,
-    fontFamily: Fonts.medium,
-    lineHeight: 22,
-    color: Colors.textLight,
-    marginBottom: 25,
+    marginVertical: 20,
+    fontFamily: Fonts.bold,
   },
   fieldContainer: {
     marginBottom: 20,
@@ -360,6 +317,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 44,
     fontSize: 16,
+    borderWidth: 1,
+    borderColor: Colors.borderColor,
     color: '#8391A1',
     fontFamily: Fonts.medium,
     shadowColor: '#101922',
@@ -368,40 +327,78 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
+  passwordContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#F7F8F9',
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    color: '#8391A1',
+    width: '100%',
+    height: 46,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderWidth: 1,
+    shadowColor: '#101922',
+    shadowOffset: { width: 2, height: 3 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  passwordInput: {
+    flex: 1,
+    fontSize: 16,
+    color: '#8391A1',
+    fontFamily: Fonts.medium,
+    paddingVertical: 0,
+  },
   errorMessage: {
     color: '#FB7C7D',
     marginTop: 4,
     fontSize: 10,
     fontFamily: Fonts.semiBold,
   },
-  switchContainer: {
+  contactContainer: {
+    backgroundColor: Colors.backgroundColor,
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    width: '100%',
+    color: '#8391A1',
+    shadowColor: '#101922',
+    shadowOffset: { width: 2, height: 3 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  contactItem: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
-    padding: 3,
+    borderBottomWidth: 1,
+    paddingVertical: 14,
+    borderBottomColor: '#EFEFEF',
   },
-  contractor: {
-    width: 16,
-    height: 16,
-    borderRadius: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 8,
-  },
-  contractorText: {
-    fontSize: 15,
+  contactText: {
     fontFamily: Fonts.medium,
+    fontSize: 16,
     color: Colors.textDark,
   },
-  nextButton: {
+  contacteditText: {
+    fontFamily: Fonts.medium,
+    fontSize: 14,
+    color: Colors.primary,
+    textDecorationLine: 'underline',
+    textDecorationColor: Colors.primary,
+    textDecorationStyle: 'solid',
+  },
+  loginButton: {
     backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 8,
   },
   gradientButton: {
-    marginTop: 60,
-    marginBottom: 26,
+    marginTop: 40,
     borderRadius: 8,
     width: '100%',
     height: 47,
@@ -414,7 +411,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
-  nextbuttonText: {
+  loginText: {
     fontSize: 16,
     color: Colors.backgroundColor,
     fontFamily: Fonts.semiBold,

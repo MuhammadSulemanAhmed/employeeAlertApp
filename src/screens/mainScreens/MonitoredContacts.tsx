@@ -18,14 +18,13 @@ import Fonts from '../../constants/Fonts';
 
 type NavigationProp = NativeStackNavigationProp<
   AppStackParamList,
-  'EmergencyContacts'
+  'MonitoredContacts'
 >;
 
-const EmergencyContacts = () => {
+const MonitoredContacts = () => {
   const navigation = useNavigation<NavigationProp>();
   const screen = useWindowDimensions();
   const isLandscape = screen.width > screen.height;
-
   return (
     <ScrollView
       contentContainerStyle={{
@@ -61,17 +60,17 @@ const EmergencyContacts = () => {
               },
             ]}
           >
+            <View style={[styles.progress, { marginRight: 4 }]} />
+            <View style={[styles.progress, { marginRight: 4 }]} />
             <View style={styles.progress} />
-            <View style={[styles.progress, { marginLeft: 4 }]} />
-            <View style={styles.incomplete} />
           </View>
 
           <View style={[styles.innerContent, { width: screen.width - 48 }]}>
             <View>
-              <Text style={styles.title}>Add Emergency Contacts</Text>
+              <Text style={styles.title}>Add Monitored Contacts</Text>
               <Text style={styles.description}>
-                To instantly alert employers and promote team safety while on
-                site.
+                Monitor and be notified when these individuals trigger a
+                hospital alert.
               </Text>
 
               <View style={styles.noContactsContainer}>
@@ -89,7 +88,7 @@ const EmergencyContacts = () => {
             >
               <TouchableOpacity
                 style={styles.addButton}
-                onPress={() => navigation.navigate('EmergencyContactForm')}
+                onPress={() => navigation.navigate('CreateGroup')}
               >
                 <Ionicons name="add-circle" size={22} color="#fff" />
                 <Text style={styles.addbuttonText}>Add Contact</Text>
@@ -102,7 +101,7 @@ const EmergencyContacts = () => {
   );
 };
 
-export default EmergencyContacts;
+export default MonitoredContacts;
 
 const styles = StyleSheet.create({
   backbtnContainer: {
@@ -132,11 +131,6 @@ const styles = StyleSheet.create({
   progress: {
     flex: 1,
     backgroundColor: Colors.primary,
-  },
-  incomplete: {
-    flex: 1,
-    backgroundColor: '#EEF0F3',
-    marginLeft: 4,
   },
   innerContent: {
     width: '100%',

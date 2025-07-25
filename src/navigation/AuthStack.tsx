@@ -6,10 +6,7 @@ import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import OTPScreen from '../screens/OTPScreen';
 import CreateNewPasswordScreen from '../screens/CreateNewPasswordScreen';
 import PasswordChangedScreen from '../screens/PasswordChangedScreen';
-import RegisterScreen from '../screens/RegisterScreen';
-import OnboardingOne from '../screens/onboarding/OnboardingOne';
-import OnboardingTwo from '../screens/onboarding/OnboardingTwo';
-import OnboardingThree from '../screens/onboarding/OnboardingThree';
+
 
 export type AuthStackParamList = {
   Welcome: undefined;
@@ -18,10 +15,6 @@ export type AuthStackParamList = {
   OTP: { phoneOrEmail: string };
   CreateNewPassword: { otpToken: string };
   PasswordChanged: undefined;
-  Register: undefined;
-  OnboardingOne: undefined;
-  OnboardingTwo: undefined;
-  OnboardingThree: undefined;
 };
 
 interface AuthStackProps {
@@ -46,10 +39,6 @@ const AuthStack = ({ setIsLoggedIn }: AuthStackProps) => {
         component={CreateNewPasswordScreen}
       />
       <Stack.Screen name="PasswordChanged" component={PasswordChangedScreen} />
-      <Stack.Screen name="Register" component={RegisterScreen} />
-      <Stack.Screen name="OnboardingOne" component={OnboardingOne} />
-      <Stack.Screen name="OnboardingTwo" component={OnboardingTwo} />
-      <Stack.Screen name="OnboardingThree" component={OnboardingThree} />
     </Stack.Navigator>
   );
 };

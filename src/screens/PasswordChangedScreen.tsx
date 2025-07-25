@@ -147,8 +147,6 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     backgroundColor: 'transparent',
-    width: '100%',
-    height: 47,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 8,
@@ -157,6 +155,9 @@ const styles = StyleSheet.create({
     marginTop: 60,
     borderRadius: 8,
     width: '100%',
+    height: 47,
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: 2,
     shadowColor: '#101922',
     shadowOffset: { width: 2, height: 3 },
