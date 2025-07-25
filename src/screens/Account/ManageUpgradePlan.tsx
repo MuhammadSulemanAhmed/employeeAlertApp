@@ -64,7 +64,7 @@ const ManageUpgradePlan = () => {
                 <View style={styles.rowText}>
                   <Text style={styles.boxText}>Small Team Plan</Text>
                   <View style={styles.smallBox}>
-                    <Text style={styles.smallBoxText}>$6/mo</Text>
+                    <Text style={styles.smallBoxText} onPress={() => navigation.navigate('ManageCheck')}>$6/mo</Text>
                   </View>
                 </View>
                 <Text style={styles.subtitle}>

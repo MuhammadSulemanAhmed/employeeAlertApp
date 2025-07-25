@@ -13,13 +13,14 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppStackParamList } from '../../navigation/AppStack';
+import { AuthStackParamList } from '../../navigation/AuthStack';
 import { AccountStackParamList } from '../../navigation/AccountStack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomToggle from '../../components/CustomToggle';
 import Colors from '../../constants/Colors';
 import Fonts from '../../constants/Fonts';
 
-type CombinedParamList = AppStackParamList & AccountStackParamList;
+type CombinedParamList = AppStackParamList & AccountStackParamList & AuthStackParamList;
 type NavigationProp = NativeStackNavigationProp<CombinedParamList>;
 
 
@@ -184,8 +185,13 @@ const Setting = () => {
               label="Personal Info"
               onPress={() => navigation.navigate('PersonalInfo')}
                />
-              <SettingItem label="Change password" />
-              <SettingItem label="Log out" />
+              <SettingItem label="Change password" 
+              onPress={() => navigation.navigate('Insurance')}
+              />
+              <SettingItem label="Log out" 
+                onPress={() => {}}
+              
+              />
             </View>
 
          
@@ -205,7 +211,7 @@ const Setting = () => {
                   </TouchableOpacity>
                 </View>
               </View>
-              <SettingItem label="Insurance" />
+              <SettingItem label="Insurance"  onPress={() => navigation.navigate('InsuranceCard')}/>
               <SettingItem label="Medical History" />
             </View>
 

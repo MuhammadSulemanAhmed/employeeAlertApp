@@ -16,6 +16,8 @@ const Fonts = {
   poppinsMedium: 'Poppins-Medium',         // 500
   poppinsSemiBold: 'Poppins-SemiBold',     // 600
   poppinsBold: 'Poppins-Bold',             // 700
+
 };
 
 export default Fonts;
+ 

@@ -9,9 +9,12 @@ import MonitoredContacts from '../screens/mainScreens/MonitoredContacts';
 import CreateGroup from '../screens/mainScreens/CreateGroup';
 import AddGroupMembers from '../screens/mainScreens/AddGroupMembers';
 import UpgradeToPremium from '../screens/mainScreens/UpgradeToPremium';
-import Setting from '../screens/Account/Setting';
-import BottomTabNavigator from './BottomTabNavigator';
 import PersonalInfo from '../screens/mainScreens/PersonalInfo';
+import Insurance from '../screens/mainScreens/Insurance';
+import InsuranceCard from '../screens/mainScreens/InsuranceCard';
+import ManageCheck from '../screens/mainScreens/ManageCheck';
+
+import BottomTabNavigator from './BottomTabNavigator';
 
 export type AppStackParamList = {
   BuildProfile: undefined;
@@ -23,12 +26,18 @@ export type AppStackParamList = {
   CreateGroup: undefined;
   AddGroupMembers: undefined;
   UpgradeToPremium: undefined;
-  Setting: undefined;
+   Insurance:undefined;
+ InsuranceCard:undefined;
+ManageCheck:undefined;
     Tabs: {
     screen?: 'Alert' | 'Contacts' | 'Account';
   }; 
   PersonalInfo:undefined;
-};
+}
+
+
+
+
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
 const AppStack = ({ setIsLoggedIn }: { setIsLoggedIn: (value: boolean) => void }) => {
@@ -48,7 +57,9 @@ const AppStack = ({ setIsLoggedIn }: { setIsLoggedIn: (value: boolean) => void }
       <Stack.Screen name="CreateGroup" component={CreateGroup} />
       <Stack.Screen name="AddGroupMembers" component={AddGroupMembers} />
       <Stack.Screen name="UpgradeToPremium" component={UpgradeToPremium} />
-      <Stack.Screen name="Setting" component={Setting} />
+      <Stack.Screen name="Insurance" component={Insurance} />
+      <Stack.Screen name="InsuranceCard" component={InsuranceCard} />
+      <Stack.Screen name="ManageCheck" component={ManageCheck} />
     </Stack.Navigator>
   );
 };

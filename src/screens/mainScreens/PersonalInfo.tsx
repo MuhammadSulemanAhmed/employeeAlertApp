@@ -34,7 +34,6 @@ const PersonalInfo = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [dobDate, setDobDate] = useState<Date | null>(null);
   const [dob, setDob] = useState('');
-  const [isContractor, setIsContractor] = useState(false);
   const [address, setAddress] = useState('');
   const screen = useWindowDimensions();
   const [errors, setErrors] = useState<{
@@ -77,7 +76,7 @@ const PersonalInfo = () => {
   };
   const handleNext = () => {
     if (validate()) {
-      navigation.navigate('Tabs',{screen:'Account'});
+      navigation.navigate('BuildProfile');
     }
   };
 
