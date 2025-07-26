@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -39,12 +39,12 @@ const CreateNewPasswordScreen = () => {
   );
 
   useEffect(() => {
-     const subscription = Dimensions.addEventListener('change', ({ window }) => {
-       setScreenDimensions(window);
-     });
- 
-     return () => subscription?.remove();
-   }, []);
+    const subscription = Dimensions.addEventListener('change', ({ window }) => {
+      setScreenDimensions(window);
+    });
+
+    return () => subscription?.remove();
+  }, []);
 
   const handleResetPassword = () => {
     if (newPassword && newPassword === confirmPassword) {
@@ -99,11 +99,13 @@ const CreateNewPasswordScreen = () => {
                 </Pressable>
               </View>
 
-              <Text style={[styles.label , {marginTop:15}]}>Confirm password *</Text>
+              <Text style={[styles.label, { marginTop: 15 }]}>
+                Confirm password *
+              </Text>
               <View style={styles.passwordContainer}>
                 <TextInput
                   placeholder="***********"
-                 placeholderTextColor="#8391A1"
+                  placeholderTextColor="#8391A1"
                   secureTextEntry={!showConfirmPassword}
                   style={styles.passwordInput}
                   value={confirmPassword}
@@ -213,8 +215,6 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: 'transparent',
-    width: '100%',
-    height: 47,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 8,
@@ -223,6 +223,9 @@ const styles = StyleSheet.create({
     marginTop: 60,
     borderRadius: 8,
     width: '100%',
+    height: 47,
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: 2,
     shadowColor: '#101922',
     shadowOffset: { width: 2, height: 3 },

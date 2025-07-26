@@ -1,4 +1,4 @@
-import React, { useRef, useState,useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -29,13 +29,13 @@ const OTPScreen = () => {
     Dimensions.get('window'),
   );
 
-   useEffect(() => {
-      const subscription = Dimensions.addEventListener('change', ({ window }) => {
-        setScreenDimensions(window);
-      });
-  
-      return () => subscription?.remove();
-    }, []);
+  useEffect(() => {
+    const subscription = Dimensions.addEventListener('change', ({ window }) => {
+      setScreenDimensions(window);
+    });
+
+    return () => subscription?.remove();
+  }, []);
   const { phoneOrEmail } = route.params as { phoneOrEmail: string };
 
   const [otp, setOtp] = useState(['', '', '', '']);
@@ -151,7 +151,7 @@ export default OTPScreen;
 
 const styles = StyleSheet.create({
   wrapper: {
-      flex: 1,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 24,
@@ -159,10 +159,9 @@ const styles = StyleSheet.create({
   content: {
     width: '100%',
     maxWidth: 328,
-     justifyContent: 'flex-start',
-     flex:1,
-     alignItems: 'flex-start',
-
+    justifyContent: 'flex-start',
+    flex: 1,
+    alignItems: 'flex-start',
   },
   backBtn: {
     width: 41,
@@ -212,8 +211,6 @@ const styles = StyleSheet.create({
   },
   verifyBtn: {
     backgroundColor: 'transparent',
-    width: '100%',
-    height: 47,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 8,
@@ -221,6 +218,9 @@ const styles = StyleSheet.create({
   gradientButton: {
     borderRadius: 8,
     width: '100%',
+    height: 47,
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: 2,
     shadowColor: '#101922',
     shadowOffset: { width: 2, height: 3 },
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     color: '#6C6C6C',
   },
   resendText: {
-    color:'#0E1517',
+    color: '#0E1517',
     fontSize: 12,
     fontFamily: Fonts.bold,
   },

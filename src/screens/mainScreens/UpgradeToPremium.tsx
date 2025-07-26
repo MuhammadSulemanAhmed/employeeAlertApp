@@ -7,17 +7,19 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
-} from 'react-native';
+  } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AuthStackParamList } from '../navigation/AuthStack';
-import Fonts from '../constants/Fonts';
-import Colors from '../constants/Colors';
+import { AppStackParamList } from '../../navigation/AppStack';
+import Fonts from '../../constants/Fonts';
+import Colors from '../../constants/Colors';
 
-type NavigationProp = NativeStackNavigationProp<AuthStackParamList>;
 
-const WelcomeScreen = () => {
+type NavigationProp = NativeStackNavigationProp<AppStackParamList>;
+
+const UpgradeToPremium = () => {
   const navigation = useNavigation<NavigationProp>();
   const [screenDimensions, setScreenDimensions] = useState(
     Dimensions.get('window'),
@@ -41,16 +43,28 @@ const WelcomeScreen = () => {
     >
       <View style={[styles.container, { minHeight: screenDimensions.height }]}>
         <View style={styles.content}>
+          <View style={styles.topContent}>
+            <TouchableOpacity
+              style={styles.backBtn}
+              onPress={() => navigation.goBack()}
+            >
+              <Ionicons name="chevron-back" size={19} color="#1E232C" />
+            </TouchableOpacity>
+            <Text style={styles.title}>Upgrade to Premium</Text>
+            <Text style={styles.subTitle}>
+              to add more than one emergency contact.
+            </Text>
           <View style={styles.imgBox}>
             <Image
-              source={require('../../assets/images/welcome.png')}
+              source={require('../../../assets/images/upgrade.png')}
               style={styles.img}
               resizeMode="contain"
             />
           </View>
+          </View>
 
-          <View style={styles.contentBox}>
-            <Text style={styles.title}>Employee Alert</Text>
+
+          <View style={{marginBottom:26}}>
             <LinearGradient
               colors={[Colors.gradientStart, Colors.gradientEnd]}
               start={{ x: 0, y: 0 }}
@@ -58,16 +72,15 @@ const WelcomeScreen = () => {
               locations={[0, 0.85]}
               style={styles.gradientButton}
             >
-              <TouchableOpacity
-                style={styles.loginButton}
-                onPress={() => navigation.navigate('Login')}
-              >
-                <Text style={styles.loginText}>Login</Text>
+              <TouchableOpacity style={styles.loginButton}
+              onPress={() => navigation.navigate("Tabs",{screen:"Account"})}
+               >
+                <Text style={styles.loginText}>Upgrade Now</Text>
               </TouchableOpacity>
             </LinearGradient>
 
-            <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate('RegisterScreen')}>
-              <Text style={styles.registerText}>Register</Text>
+            <TouchableOpacity style={styles.registerButton} onPress={() => {}}>
+              <Text style={styles.registerText}>Later</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -76,7 +89,7 @@ const WelcomeScreen = () => {
   );
 };
 
-export default WelcomeScreen;
+export default UpgradeToPremium;
 
 const styles = StyleSheet.create({
   container: {
@@ -90,33 +103,53 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 328,
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+  },
+  topContent: {
+    justifyContent: 'flex-start',
+    width: '100%',
+  },
+  backBtn: {
+    width: 41,
+    height: 41,
+    borderRadius: 12,
+    backgroundColor: Colors.backgroundColor,
     alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#101922',
+    shadowOffset: { width: 2, height: 3 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  title: {
+    fontSize: 28,
+    color: Colors.textDark,
+    fontFamily: Fonts.medium,
+    marginTop:28,
+    marginBottom: 10,
+    letterSpacing:-1,
+
+  },
+  subTitle: {
+    fontSize: 14,
+    fontFamily: Fonts.medium,
+    lineHeight: 22,
+    color: Colors.textLight,
+  
   },
   imgBox: {
     width: '100%',
-    maxWidth: 290.25,
+    maxWidth: 319,
     height: 346,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 80,
+    marginTop:41,
   },
   img: {
     width: '100%',
     height: '100%',
     borderRadius: 10.45,
   },
-  contentBox: {
-    width: '100%',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 23,
-    color: Colors.textDark,
-    fontFamily: Fonts.medium,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
+
   loginButton: {
     backgroundColor: 'transparent',
     alignItems: 'center',

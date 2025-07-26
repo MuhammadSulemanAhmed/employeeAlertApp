@@ -15,11 +15,16 @@ import Colors from '../../constants/Colors';
 import Fonts from '../../constants/Fonts';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AccountStackParamList } from '../../navigation/AccountStack';
+import { AppStackParamList } from '../../navigation/AppStack';
+import { AuthStackParamList } from '../../navigation/AuthStack';
 const { width } = Dimensions.get('window');
 import LinearGradient from 'react-native-linear-gradient';
-import { AuthStackParamList } from '../../navigation/AuthStack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-type NavigationProp = NativeStackNavigationProp<AuthStackParamList>;
+
+
+type CombinedParamList = AppStackParamList & AccountStackParamList & AuthStackParamList;
+type NavigationProp = NativeStackNavigationProp<CombinedParamList>;
 
 const ManageCheck = () => {
 
@@ -55,7 +60,7 @@ const ManageCheck = () => {
                                 <Text style={styles.touchText}>Upgrade Plan</Text>
                             </View>
                             <View style={styles.bottomBox}>
-                                {/* Add any content here */}
+
                                 <View style={styles.rowText}>
                                     <Text style={styles.boxText}>Unlimited Team Plan</Text>
                                     <View style={styles.smallBox}>
@@ -125,7 +130,7 @@ const ManageCheck = () => {
                             locations={[0, 0.85]}
                             style={styles.gradientButton}
                         >
-                            <TouchableOpacity style={styles.button}>
+                            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Tabs',{screen:'Account'})}>
                                 <Text style={styles.buttonText}>Update</Text>
                             </TouchableOpacity>
                         </LinearGradient>

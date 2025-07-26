@@ -11,7 +11,7 @@ const Fonts = {
   interSemiBold: 'Inter-SemiBold',  // 600
   interBold: 'Inter-Bold',          // 700
 
-  // Poppins Fonts (Normal + Only Italic)
+  // Poppins Fonts
   poppinsRegular: 'Poppins-Regular',       // 400
   poppinsMedium: 'Poppins-Medium',         // 500
   poppinsSemiBold: 'Poppins-SemiBold',     // 600

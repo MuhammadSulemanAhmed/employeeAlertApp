@@ -11,17 +11,18 @@ import OnboardingOne from '../screens/onboarding/OnboardingOne';
 import OnboardingTwo from '../screens/onboarding/OnboardingTwo';
 import OnboardingThree from '../screens/onboarding/OnboardingThree';
 
+
 export type AuthStackParamList = {
-  Welcome: undefined;
-  Login: undefined;
+  WelcomeScreen: undefined;
+  RegisterScreen:undefined,
+  OnboardingOne :undefined,
+  OnboardingTwo:undefined,
+  OnboardingThree:undefined,
+  Login: undefined; 
   ForgotPassword: undefined;
   OTP: { phoneOrEmail: string };
   CreateNewPassword: { otpToken: string };
   PasswordChanged: undefined;
-  Register: undefined;
-  OnboardingOne: undefined;
-  OnboardingTwo: undefined;
-  OnboardingThree: undefined;
 };
 
 interface AuthStackProps {
@@ -33,12 +34,17 @@ const AuthStack = ({ setIsLoggedIn }: AuthStackProps) => {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName="Welcome"
+      initialRouteName="WelcomeScreen"
     >
-      <Stack.Screen name="Welcome" component={WelcomeScreen} />
+      <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
       <Stack.Screen name="Login">
         {props => <LoginScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
+
       </Stack.Screen>
+      <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+      <Stack.Screen name="OnboardingOne" component={OnboardingOne} />
+      <Stack.Screen name="OnboardingTwo" component={OnboardingTwo} />
+      <Stack.Screen name="OnboardingThree" component={OnboardingThree} />
       <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
       <Stack.Screen name="OTP" component={OTPScreen} />
       <Stack.Screen
@@ -46,10 +52,6 @@ const AuthStack = ({ setIsLoggedIn }: AuthStackProps) => {
         component={CreateNewPasswordScreen}
       />
       <Stack.Screen name="PasswordChanged" component={PasswordChangedScreen} />
-      <Stack.Screen name="Register" component={RegisterScreen} />
-      <Stack.Screen name="OnboardingOne" component={OnboardingOne} />
-      <Stack.Screen name="OnboardingTwo" component={OnboardingTwo} />
-      <Stack.Screen name="OnboardingThree" component={OnboardingThree} />
     </Stack.Navigator>
   );
 };

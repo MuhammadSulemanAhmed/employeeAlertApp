@@ -53,10 +53,13 @@
 		<string>Inter_18pt-Medium.ttf</string>
 		<string>Inter_18pt-Regular.ttf</string>
 		<string>Inter_18pt-SemiBold.ttf</string>
+<<<<<<< HEAD
+=======
 		<string>Poppins-Bold.ttf</string>
 		<string>Poppins-Medium.ttf</string>
 		<string>Poppins-Regular.ttf</string>
 		<string>Poppins-SemiBold.ttf</string>
+>>>>>>> e9e513f97efeb50b3085dc3712fd3fbbf15c1652
 		<string>Urbanist-Bold.ttf</string>
 		<string>Urbanist-Medium.ttf</string>
 		<string>Urbanist-Regular.ttf</string>

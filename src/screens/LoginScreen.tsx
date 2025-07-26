@@ -61,7 +61,7 @@ const LoginScreen = ({ setIsLoggedIn }: LoginScreenProps) => {
 
     setTimeout(() => {
       setShowSuccess(false);
-      setIsLoggedIn(true); 
+      setIsLoggedIn(true);
     }, 3000);
   };
 
@@ -135,7 +135,7 @@ const LoginScreen = ({ setIsLoggedIn }: LoginScreenProps) => {
                   style={styles.gradientButton}
                 >
                   <TouchableOpacity
-                    style={styles.loginButton} 
+                    style={styles.loginButton}
                     onPress={handleLogin}
                   >
                     <Text style={styles.loginText}>Login</Text>
@@ -167,9 +167,7 @@ const LoginScreen = ({ setIsLoggedIn }: LoginScreenProps) => {
                 <Text style={styles.registerAccountText}>
                   Don't have an account?{' '}
                 </Text>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('Register')}
-                >
+                <TouchableOpacity onPress={() => {}}>
                   <Text style={styles.registerText}>Register Now</Text>
                 </TouchableOpacity>
               </View>
@@ -283,16 +281,17 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     backgroundColor: 'transparent',
-    width: '100%',
-    height: 47,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 8,
   },
   gradientButton: {
-    marginTop:30,
+    marginTop: 30,
     borderRadius: 8,
     width: '100%',
+    height: 47,
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: 2,
     shadowColor: '#101922',
     shadowOffset: { width: 2, height: 3 },
