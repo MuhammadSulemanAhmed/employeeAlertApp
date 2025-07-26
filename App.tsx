@@ -4,25 +4,18 @@
  *
  * @format
  */
-
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import React,{useState} from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import AuthStack from './src/navigation/AuthStack';
+import AppStack from './src/navigation/AppStack';
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
+  const [isLoggedIn , setIsLoggedIn] = useState(false)
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NewAppScreen templateFileName="App.tsx" />
-    </View>
+    <NavigationContainer>
+     {isLoggedIn ?  <AppStack setIsLoggedIn={setIsLoggedIn}/>  : <AuthStack setIsLoggedIn={setIsLoggedIn}/>  } 
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;
